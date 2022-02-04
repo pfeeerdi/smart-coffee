@@ -3,6 +3,7 @@ from app.model import Coffee
 from app import mqtt
 from app import db
 from datetime import datetime
+from app.service.visualization_service import create_coffee_usage_png
 import ast
 
 def update_coffee_hist():
@@ -27,6 +28,7 @@ def update_coffee_hist():
         data["coffee_types"].append(type_coffee)
         save_hist(data)
         print(f"Added a coffe with the details: dateimte: {dt}, coffee_type: {type_coffee}")
+        create_coffee_usage_png()
      
 
 def get_hist():
@@ -48,3 +50,6 @@ def save_hist(data):
 
 def make_coffee(coffee_type):
     return mqtt.publish('ferdi9@hotmail.de/makecoffee', coffee_type)
+
+def number_of_espresso():
+    return len(get_hist()["dates"])
